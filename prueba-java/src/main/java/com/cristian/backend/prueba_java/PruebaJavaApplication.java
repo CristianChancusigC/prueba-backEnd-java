@@ -1,4 +1,4 @@
-package com.pruebajavaspring.prueba.prueba_java;
+package com.cristian.backend.prueba_java;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.pruebajavaspring.prueba.prueba_java;
+package com.cristian.backend.prueba_java;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
