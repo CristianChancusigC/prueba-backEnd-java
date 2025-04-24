@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cristian.backend.prueba_java.models.MovimientosModel;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosDTO;
 import com.cristian.backend.prueba_java.repositories.IMovimientoRepository;
+import com.cristian.backend.prueba_java.services.Mapper.MovimientosMapper;
 
 @Service
 public class MovimientosService {
@@ -16,6 +18,15 @@ public class MovimientosService {
 
     public ArrayList<MovimientosModel> getMovimientos() {
         return (ArrayList<MovimientosModel>) movimientoRepository.findAll();
+    }
+
+    public ArrayList<MovimientosDTO> getMovimientosDTO() {
+        ArrayList<MovimientosModel> movimientos = (ArrayList<MovimientosModel>) movimientoRepository.findAll();
+        ArrayList<MovimientosDTO> movimientosDTO = new ArrayList<>();
+        for (MovimientosModel movimiento : movimientos) {
+            movimientosDTO.add(MovimientosMapper.CovertMovimientosDTO(movimiento));
+        }
+        return movimientosDTO;
     }
 
     public MovimientosModel saveMovimiento(MovimientosModel movimiento) {

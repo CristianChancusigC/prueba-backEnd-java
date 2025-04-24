@@ -1,6 +1,6 @@
-package com.cristian.backend.prueba_java.models.dto;
+package com.cristian.backend.prueba_java.models.dto.cliente;
 
-public class ClienteDTO {
+public class ClienteResponseDTO {
     private String nombre;
     private String direccion;
     private String telefono;

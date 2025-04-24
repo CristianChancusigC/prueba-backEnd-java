@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.backend.prueba_java.models.ClienteModel;
-import com.cristian.backend.prueba_java.models.dto.ClienteDTO;
+import com.cristian.backend.prueba_java.models.dto.cliente.ClienteRequestDTO;
+import com.cristian.backend.prueba_java.models.dto.cliente.ClienteResponseDTO;
+import com.cristian.backend.prueba_java.models.dto.cliente.ClienteUpdateDTO;
 import com.cristian.backend.prueba_java.services.ClienteService;
 
 import jakarta.validation.Valid;
@@ -27,23 +29,23 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public ArrayList<ClienteDTO> getAllClientes() {
+    public ArrayList<ClienteResponseDTO> getAllClientes() {
         return clienteService.getClientesDTO();
     }
 
     @GetMapping(path = "/{id}")
-    public ClienteModel getClienteById(@PathVariable("id") Long id) {
-        return this.clienteService.getById(id);
+    public ClienteResponseDTO getClienteById(@PathVariable("id") Long id) {
+        return this.clienteService.getByIdDTO(id);
     }
 
     @PostMapping
-    public ClienteModel saveCliente(@Valid @RequestBody ClienteModel cliente) {
-        return this.clienteService.saveCliente(cliente);
+    public ClienteRequestDTO saveCliente(@Valid @RequestBody ClienteModel cliente) {
+        return this.clienteService.saveClienteDTO(cliente);
     }
 
     @PutMapping(path = "/{id}")
-    public ClienteModel updateClienteById(@Valid @RequestBody ClienteModel request, @PathVariable("id") Long id) {
-        return this.clienteService.updateById(request, id);
+    public ClienteUpdateDTO updateClienteById(@Valid @RequestBody ClienteModel request, @PathVariable("id") Long id) {
+        return this.clienteService.updateByIdDTO(request, id);
     }
 
     @DeleteMapping(path = "/{id}")

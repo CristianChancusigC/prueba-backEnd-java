@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.backend.prueba_java.models.MovimientosModel;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosDTO;
 import com.cristian.backend.prueba_java.services.MovimientosService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,8 +24,8 @@ public class MovimientosController {
     private MovimientosService movimientosService;
 
     @GetMapping
-    public ArrayList<MovimientosModel> getAllMovimientos() {
-        return this.movimientosService.getMovimientos();
+    public ArrayList<MovimientosDTO> getAllMovimientos() {
+        return this.movimientosService.getMovimientosDTO();
     }
 
     @GetMapping(path = "/{id}")

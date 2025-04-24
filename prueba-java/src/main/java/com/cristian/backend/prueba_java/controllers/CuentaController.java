@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.backend.prueba_java.models.CuentaModel;
+import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaRequestDTO;
+import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaResponseDTO;
+import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaUpdateDTO;
 import com.cristian.backend.prueba_java.services.CuentaService;
 
 import jakarta.validation.Valid;
@@ -26,23 +29,24 @@ public class CuentaController {
     private CuentaService cuentaService;
 
     @GetMapping
-    public ArrayList<CuentaModel> getAllCuentas() {
-        return this.cuentaService.getCuentas();
+    public ArrayList<CuentaResponseDTO> getAllCuentas() {
+        return this.cuentaService.getCuentasDTO();
     }
 
     @GetMapping(path = "/{id}")
-    public CuentaModel getCuentaById(@PathVariable("id") Long id) {
-        return this.cuentaService.getById(id);
+    public CuentaResponseDTO getCuentaById(@PathVariable("id") Long id) {
+
+        return this.cuentaService.getByIdODT(id);
     }
 
     @PostMapping
-    public CuentaModel saveCuenta(@Valid @RequestBody CuentaModel cuenta) {
-        return this.cuentaService.saveCuenta(cuenta);
+    public CuentaRequestDTO saveCuenta(@Valid @RequestBody CuentaModel cuenta) {
+        return this.cuentaService.saveCuentaDTO(cuenta);
     }
 
-    @PutMapping("path/{id}")
-    public CuentaModel updateCuentaById(@Valid @RequestBody CuentaModel request, @PathVariable("id") Long id) {
-        return this.cuentaService.updateById(request, id);
+    @PutMapping(path = "/{id}")
+    public CuentaUpdateDTO updateCuentaById(@Valid @RequestBody CuentaModel request, @PathVariable("id") Long id) {
+        return this.cuentaService.updateByIdDTO(request, id);
     }
 
     @DeleteMapping(path = "/{id}")

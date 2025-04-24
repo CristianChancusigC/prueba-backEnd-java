@@ -20,7 +20,7 @@ public class CuentaModel {
     private Long cuenta_id;
 
     @Column(unique = true, nullable = false)
-    private Long numero_cuenta;
+    private String numero_cuenta;
 
     @Column(nullable = false)
     private String tipo_cuenta;
@@ -35,11 +35,11 @@ public class CuentaModel {
         return cuenta_id;
     }
 
-    public Long getNumeroCuenta() {
+    public String getNumeroCuenta() {
         return numero_cuenta;
     }
 
-    public void setNumeroCuenta(Long numero_cuenta) {
+    public void setNumeroCuenta(String numero_cuenta) {
         this.numero_cuenta = numero_cuenta;
     }
 
