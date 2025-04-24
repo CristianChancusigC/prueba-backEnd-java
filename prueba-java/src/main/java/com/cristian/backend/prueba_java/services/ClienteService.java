@@ -18,10 +18,6 @@ public class ClienteService {
     @Autowired
     IClienteRepository clienteRepository;
 
-    // public ArrayList<ClienteModel> getClientes() {
-    // return (ArrayList<ClienteModel>) clienteRepository.findAll();
-    // }
-
     public ArrayList<ClienteResponseDTO> getClientesDTO() {
         ArrayList<ClienteModel> clientes = (ArrayList<ClienteModel>) clienteRepository.findAll();
         ArrayList<ClienteResponseDTO> clientesDTO = new ArrayList<>();
@@ -31,20 +27,12 @@ public class ClienteService {
         return clientesDTO;
     }
 
-    // public ClienteModel saveCliente(ClienteModel cliente) {
-    // return clienteRepository.save(cliente);
-    // }
-
     public ClienteRequestDTO saveClienteDTO(ClienteModel cliente) {
         cliente = clienteRepository.save(cliente);
         ClienteRequestDTO clienteDTO = new ClienteRequestDTO();
         clienteDTO = ClienteMapper.CovertClienteRequestDTO(cliente);
         return clienteDTO;
     }
-
-    // public ClienteModel getById(Long id) {
-    // return clienteRepository.findById(id).orElse(null);
-    // }
 
     public ClienteResponseDTO getByIdDTO(Long id) {
         ClienteModel cliente = clienteRepository.findById(id).orElse(null);
@@ -54,23 +42,6 @@ public class ClienteService {
             return null;
         }
     }
-
-    // public ClienteModel updateById(ClienteModel request, Long id) {
-    // ClienteModel cliente = clienteRepository.findById(id).orElse(null);
-    // if (cliente != null) {
-    // cliente.setNombre(request.getNombre());
-    // cliente.setGenero(request.getGenero());
-    // cliente.setEdad(request.getEdad());
-    // cliente.setIdentificacion(request.getIdentificacion());
-    // cliente.setDireccion(request.getDireccion());
-    // cliente.setTelefono(request.getTelefono());
-    // cliente.setContrasena(request.getContrasena());
-    // cliente.setEstado(request.getEstado());
-    // return clienteRepository.save(cliente);
-    // } else {
-    // return null;
-    // }
-    // }
 
     public ClienteUpdateDTO updateByIdDTO(ClienteModel request, Long id) {
         ClienteModel cliente = clienteRepository.findById(id).orElse(null);

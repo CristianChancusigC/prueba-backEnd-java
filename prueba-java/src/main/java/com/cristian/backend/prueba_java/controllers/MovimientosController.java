@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.backend.prueba_java.models.MovimientosModel;
-import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientoUpdateDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosRequestDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosResponseDTO;
 import com.cristian.backend.prueba_java.services.MovimientosService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,23 +26,24 @@ public class MovimientosController {
     private MovimientosService movimientosService;
 
     @GetMapping
-    public ArrayList<MovimientosDTO> getAllMovimientos() {
+    public ArrayList<MovimientosResponseDTO> getAllMovimientos() {
         return this.movimientosService.getMovimientosDTO();
     }
 
     @GetMapping(path = "/{id}")
-    public MovimientosModel getMovimientoById(@PathVariable("id") Long id) {
-        return this.movimientosService.getById(id);
+    public MovimientosResponseDTO getMovimientoById(@PathVariable("id") Long id) {
+        return this.movimientosService.getByIdDTO(id);
     }
 
     @PostMapping
-    public MovimientosModel saveMovimiento(@RequestBody MovimientosModel movimiento) {
-        return this.movimientosService.saveMovimiento(movimiento);
+    public MovimientosRequestDTO saveMovimiento(@RequestBody MovimientosModel movimiento) {
+        return this.movimientosService.saveMovimientoDTO(movimiento);
     }
 
-    @PutMapping("path/{id}")
-    public MovimientosModel updateMovimientoById(@RequestBody MovimientosModel request, @PathVariable("id") Long id) {
-        return this.movimientosService.updateById(request, id);
+    @PutMapping(path = "/{id}")
+    public MovimientoUpdateDTO updateMovimientoById(@RequestBody MovimientosModel request,
+            @PathVariable("id") Long id) {
+        return this.movimientosService.updateByIdDTO(request, id);
     }
 
     @DeleteMapping(path = "/{id}")

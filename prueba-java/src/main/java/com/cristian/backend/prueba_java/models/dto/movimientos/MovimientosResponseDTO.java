@@ -2,12 +2,12 @@ package com.cristian.backend.prueba_java.models.dto.movimientos;
 
 import java.time.LocalDate;
 
-public class MovimientosDTO {
+public class MovimientosResponseDTO {
     private LocalDate fecha;
     private String nombre;
     private String numeroCuenta;
     private String tipoMovimiento;
-    private Double valor;
+    private Double saldo_inicial;
     private Boolean estado;
     private Double movimiento;
     private Double saldoDisponible;
@@ -28,12 +28,12 @@ public class MovimientosDTO {
         this.tipoMovimiento = tipoMovimiento;
     }
 
-    public Double getValor() {
-        return valor;
+    public Double getSaldoInicial() {
+        return saldo_inicial;
     }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setSaldoInicial(Double valor) {
+        this.saldo_inicial = valor;
     }
 
     public Boolean getEstado() {

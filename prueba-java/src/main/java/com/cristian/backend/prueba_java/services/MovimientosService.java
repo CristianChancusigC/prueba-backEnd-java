@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cristian.backend.prueba_java.models.MovimientosModel;
-import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientoUpdateDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosRequestDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosResponseDTO;
 import com.cristian.backend.prueba_java.repositories.IMovimientoRepository;
 import com.cristian.backend.prueba_java.services.Mapper.MovimientosMapper;
 
@@ -16,34 +18,52 @@ public class MovimientosService {
     @Autowired
     private IMovimientoRepository movimientoRepository;
 
-    public ArrayList<MovimientosModel> getMovimientos() {
-        return (ArrayList<MovimientosModel>) movimientoRepository.findAll();
-    }
-
-    public ArrayList<MovimientosDTO> getMovimientosDTO() {
+    public ArrayList<MovimientosResponseDTO> getMovimientosDTO() {
         ArrayList<MovimientosModel> movimientos = (ArrayList<MovimientosModel>) movimientoRepository.findAll();
-        ArrayList<MovimientosDTO> movimientosDTO = new ArrayList<>();
+        ArrayList<MovimientosResponseDTO> movimientosDTO = new ArrayList<>();
         for (MovimientosModel movimiento : movimientos) {
-            movimientosDTO.add(MovimientosMapper.CovertMovimientosDTO(movimiento));
+            movimientosDTO.add(MovimientosMapper.CovertMovimientosResponseDTO(movimiento));
         }
         return movimientosDTO;
     }
 
-    public MovimientosModel saveMovimiento(MovimientosModel movimiento) {
-        return movimientoRepository.save(movimiento);
+    // public MovimientosModel saveMovimiento(MovimientosModel movimiento) {
+    // return movimientoRepository.save(movimiento);
+    // }
+    public MovimientosRequestDTO saveMovimientoDTO(MovimientosModel movimiento) {
+        movimiento = movimientoRepository.save(movimiento);
+        MovimientosRequestDTO movimientoDTO = new MovimientosRequestDTO();
+        movimientoDTO = MovimientosMapper.ConvertRequestDTO(movimiento);
+        return movimientoDTO;
     }
 
-    public MovimientosModel getById(Long id) {
-        return movimientoRepository.findById(id).orElse(null);
-    }
-
-    public MovimientosModel updateById(MovimientosModel request, Long id) {
+    public MovimientosResponseDTO getByIdDTO(Long id) {
         MovimientosModel movimiento = movimientoRepository.findById(id).orElse(null);
         if (movimiento != null) {
-            movimiento.setTipoMovimiento(request.getTipoMovimiento());
-            movimiento.setValor(request.getValor());
+            return MovimientosMapper.CovertMovimientosResponseDTO(movimiento);
+        } else {
+            return null;
+        }
+    }
+
+    // public MovimientosModel updateById(MovimientosModel request, Long id) {
+    // MovimientosModel movimiento = movimientoRepository.findById(id).orElse(null);
+    // if (movimiento != null) {
+    // movimiento.setTipoMovimiento(request.getTipoMovimiento());
+    // movimiento.setValor(request.getValor());
+    // movimiento.setFecha(request.getFecha());
+    // return movimientoRepository.save(movimiento);
+    // } else {
+    // return null;
+    // }
+    // }
+
+    public MovimientoUpdateDTO updateByIdDTO(MovimientosModel request, Long id) {
+        MovimientosModel movimiento = movimientoRepository.findById(id).orElse(null);
+        if (movimiento != null) {
             movimiento.setFecha(request.getFecha());
-            return movimientoRepository.save(movimiento);
+            movimiento.setValor(request.getValor());
+            return MovimientosMapper.ConvertUpdateDTO(movimientoRepository.save(movimiento));
         } else {
             return null;
         }
