@@ -10,6 +10,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,7 +31,7 @@ public class PersonaModel {
     @Column
     private int edad;
 
-    @NotBlank(message = "La identificación no puede estar vacía")
+    @NotNull(message = "La identificación no puede ser nula")
     @Column(nullable = false)
     private int identificacion;
 

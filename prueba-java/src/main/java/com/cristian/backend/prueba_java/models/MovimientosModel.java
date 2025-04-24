@@ -2,6 +2,8 @@ package com.cristian.backend.prueba_java.models;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Movimientos")
+@Table(name = "movimientos")
 public class MovimientosModel {
 
     @Id
@@ -44,11 +46,11 @@ public class MovimientosModel {
         this.fecha = fecha;
     }
 
-    public String getTipo_movimiento() {
+    public String getTipoMovimiento() {
         return tipo_movimiento;
     }
 
-    public void setTipo_movimiento(String tipo_movimiento) {
+    public void setTipoMovimiento(String tipo_movimiento) {
         this.tipo_movimiento = tipo_movimiento;
     }
 
@@ -78,5 +80,6 @@ public class MovimientosModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuenta_id")
+    @JsonIgnore
     private CuentaModel cuenta;
 }

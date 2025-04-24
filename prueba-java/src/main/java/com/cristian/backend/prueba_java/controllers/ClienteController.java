@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.backend.prueba_java.models.ClienteModel;
+import com.cristian.backend.prueba_java.models.dto.ClienteDTO;
 import com.cristian.backend.prueba_java.services.ClienteService;
 
 import jakarta.validation.Valid;
@@ -26,8 +27,8 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public ArrayList<ClienteModel> getAllClientes() {
-        return clienteService.getClientes();
+    public ArrayList<ClienteDTO> getAllClientes() {
+        return clienteService.getClientesDTO();
     }
 
     @GetMapping(path = "/{id}")

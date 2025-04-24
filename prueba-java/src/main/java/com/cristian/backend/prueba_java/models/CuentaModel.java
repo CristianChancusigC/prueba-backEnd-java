@@ -1,5 +1,7 @@
 package com.cristian.backend.prueba_java.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,27 +35,27 @@ public class CuentaModel {
         return cuenta_id;
     }
 
-    public Long getNumero_cuenta() {
+    public Long getNumeroCuenta() {
         return numero_cuenta;
     }
 
-    public void setNumero_cuenta(Long numero_cuenta) {
+    public void setNumeroCuenta(Long numero_cuenta) {
         this.numero_cuenta = numero_cuenta;
     }
 
-    public String getTipo_cuenta() {
+    public String getTipoCuenta() {
         return tipo_cuenta;
     }
 
-    public void setTipo_cuenta(String tipo_cuenta) {
+    public void setTipoCuenta(String tipo_cuenta) {
         this.tipo_cuenta = tipo_cuenta;
     }
 
-    public Double getSaldo_inicial() {
+    public Double getSaldoInicial() {
         return saldo_inicial;
     }
 
-    public void setSaldo_inicial(Double saldo_inicial) {
+    public void setSaldoInicial(Double saldo_inicial) {
         this.saldo_inicial = saldo_inicial;
     }
 
@@ -75,5 +77,6 @@ public class CuentaModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
+    @JsonIgnore
     private ClienteModel cliente;
 }

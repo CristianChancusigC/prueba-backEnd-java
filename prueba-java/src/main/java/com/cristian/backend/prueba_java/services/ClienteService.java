@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cristian.backend.prueba_java.models.ClienteModel;
+import com.cristian.backend.prueba_java.models.dto.ClienteDTO;
 import com.cristian.backend.prueba_java.repositories.IClienteRepository;
+import com.cristian.backend.prueba_java.services.Mapper.ClienteMapper;
 
 @Service
 public class ClienteService {
@@ -16,6 +18,15 @@ public class ClienteService {
 
     public ArrayList<ClienteModel> getClientes() {
         return (ArrayList<ClienteModel>) clienteRepository.findAll();
+    }
+
+    public ArrayList<ClienteDTO> getClientesDTO() {
+        ArrayList<ClienteModel> clientes = (ArrayList<ClienteModel>) clienteRepository.findAll();
+        ArrayList<ClienteDTO> clientesDTO = new ArrayList<>();
+        for (ClienteModel cliente : clientes) {
+            clientesDTO.add(ClienteMapper.CovertClienteDTO(cliente));
+        }
+        return clientesDTO;
     }
 
     public ClienteModel saveCliente(ClienteModel cliente) {
