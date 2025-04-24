@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-PruebaJavaApplication<prueba-java>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.cristian.backend.prueba_java.PruebaJavaApplication",
+      "projectName": "prueba-java",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
