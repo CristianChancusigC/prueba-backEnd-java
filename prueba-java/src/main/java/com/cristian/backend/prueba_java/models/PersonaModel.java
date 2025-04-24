@@ -5,25 +5,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "persona")
 public class PersonaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long persona_id;
 
-    @Column
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Column(nullable = false)
     private String nombre;
 
     @Column
     private String genero;
 
+    @Min(value = 0, message = "La edad no puede ser menor a 0")
     @Column
     private int edad;
 
-    @Column
+    @NotBlank(message = "La identificación no puede estar vacía")
+    @Column(nullable = false)
     private int identificacion;
 
     @Column
@@ -34,10 +42,6 @@ public class PersonaModel {
 
     public Long getPersona_id() {
         return persona_id;
-    }
-
-    public void setPersona_id(Long id) {
-        this.persona_id = id;
     }
 
     public String getNombre() {

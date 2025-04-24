@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cristian.backend.prueba_java.models.PersonaModel;
 import com.cristian.backend.prueba_java.services.PersonaService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,17 +26,13 @@ public class PersonaController {
     @Autowired
     private PersonaService personaService;
 
-    // @GetMapping("/test")
-    // public String Test() {
-    // return "This works!";
-    // }
     @GetMapping
     public ArrayList<PersonaModel> getAllPersonas() {
         return personaService.getPersonas();
     }
 
     @PostMapping
-    public PersonaModel savePersona(@RequestBody PersonaModel persona) {
+    public PersonaModel savePersona(@Valid @RequestBody PersonaModel persona) {
         return this.personaService.savePersona(persona);
     }
 
