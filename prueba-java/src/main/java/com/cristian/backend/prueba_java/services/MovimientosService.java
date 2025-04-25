@@ -1,14 +1,19 @@
 package com.cristian.backend.prueba_java.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cristian.backend.prueba_java.models.CuentaModel;
 import com.cristian.backend.prueba_java.models.MovimientosModel;
 import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientoUpdateDTO;
 import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosRequestDTO;
 import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosResponseDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.SMovimientoResponseDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.SMovimientosRequestDTO;
+import com.cristian.backend.prueba_java.repositories.ICuentaRepository;
 import com.cristian.backend.prueba_java.repositories.IMovimientoRepository;
 import com.cristian.backend.prueba_java.services.Mapper.MovimientosMapper;
 
@@ -17,6 +22,9 @@ public class MovimientosService {
 
     @Autowired
     private IMovimientoRepository movimientoRepository;
+
+    @Autowired
+    private ICuentaRepository cuentaRepository;
 
     public ArrayList<MovimientosResponseDTO> getMovimientosDTO() {
         ArrayList<MovimientosModel> movimientos = (ArrayList<MovimientosModel>) movimientoRepository.findAll();
@@ -77,4 +85,41 @@ public class MovimientosService {
             return false;
         }
     }
+
+    public SMovimientoResponseDTO registroMovimientos(SMovimientosRequestDTO movimientoDTO) {
+        CuentaModel cuenta = cuentaRepository.findById(movimientoDTO.getCuentaId())
+                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+
+        Double nuevoSaldo = cuenta.getSaldoInicial();
+
+        if (movimientoDTO.getValor() < 0) {
+            if (nuevoSaldo + movimientoDTO.getValor() < 0) {
+                throw new RuntimeException("Saldo insuficiente para realizar el movimiento");
+            }
+        } 
+        // else {
+        //     cuenta.setSaldoInicial(nuevoSaldo + movimientoDTO.getValor());
+        // }
+        cuenta.setSaldoInicial(nuevoSaldo + movimientoDTO.getValor());
+        cuentaRepository.save(cuenta);
+
+        MovimientosModel movimiento = new MovimientosModel();
+        movimiento.setCuenta(cuenta);
+        movimiento.setFecha(LocalDate.now());
+        movimiento.setTipoMovimiento(movimientoDTO.getTipoMovimiento());
+        movimiento.setValor(movimientoDTO.getValor());
+        movimiento.setSaldo(nuevoSaldo);
+        movimientoRepository.save(movimiento);
+
+        SMovimientoResponseDTO response = new SMovimientoResponseDTO();
+        response.setFecha(movimiento.getFecha());
+        response.setTipoMovimiento(movimiento.getTipoMovimiento());
+        response.setValor(movimiento.getValor());
+        response.setSaldo(movimiento.getSaldo());
+        response.setCuentaId(cuenta.getCuenta_id());
+
+        return response;
+
+    }
+
 }

@@ -46,4 +46,22 @@ public class MovimientosMapper {
         movimientos.setValor(movimientosModel.getValor());
         return movimientos;
     }
+
+    // public static SMovimientoResponseDTO
+    // RegistroMovimientos(SMovimientosRequestDTO movimientoDTO) {
+    // CuentaModel cuenta = cuentaRepository.findById(movimientoDTO.getCuentaId())
+    // .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+
+    // Double saldoInicial = cuenta.getSaldoInicial();
+
+    // if (movimientoDTO.getValor() < 0) {
+    // if (cuenta.getSaldoInicial() + movimientoDTO.getValor() < 0) {
+    // throw new RuntimeException("Saldo insuficiente para realizar el movimiento");
+    // }
+    // }else {
+    // cuenta.setSaldoInicial(cuenta.getSaldoInicial() + movimientoDTO.getValor());
+    // }
+
+    // return movimientos;
+    // }
 }

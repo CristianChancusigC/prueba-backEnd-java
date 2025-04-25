@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.backend.prueba_java.models.MovimientosModel;
 import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientoUpdateDTO;
-import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosRequestDTO;
 import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientosResponseDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.SMovimientoResponseDTO;
+import com.cristian.backend.prueba_java.models.dto.movimientos.SMovimientosRequestDTO;
 import com.cristian.backend.prueba_java.services.MovimientosService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,9 +37,16 @@ public class MovimientosController {
     }
 
     @PostMapping
-    public MovimientosRequestDTO saveMovimiento(@RequestBody MovimientosModel movimiento) {
-        return this.movimientosService.saveMovimientoDTO(movimiento);
+    public SMovimientoResponseDTO registrarMovimiento(@RequestBody SMovimientosRequestDTO request) {
+        return movimientosService.registroMovimientos(request);
     }
+    // @PostMapping
+    // public ResponseEntity<SMovimientoResponseDTO>
+    // registrarMovimiento(@RequestBody SMovimientosRequestDTO request) {
+    // SMovimientoResponseDTO response =
+    // movimientosService.registroMovimientos(request);
+    // return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    // }
 
     @PutMapping(path = "/{id}")
     public MovimientoUpdateDTO updateMovimientoById(@RequestBody MovimientosModel request,
