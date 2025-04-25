@@ -86,7 +86,6 @@ docker-compose up
 Esto iniciará:
 
 - Un contenedor para la app Java (java_app)
-
 - Un contenedor para MySQL (java_db)
 
 ### Autor
