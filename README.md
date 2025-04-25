@@ -91,4 +91,4 @@ Esto iniciará:
 ### Autor
 
 - Cristian Chancusig
-- [LinkedIn](www.linkedin.com/in/cristian-chancusig-153520247) / [GitHub](https://github.com/CristianChancusigC) / [Portafolio](https://cristianchancusigc.github.io/my-portfolio/)
+- [LinkedIn](https://www.linkedin.com/in/cristian-chancusig-153520247) / [GitHub](https://github.com/CristianChancusigC) / [Portafolio](https://cristianchancusigc.github.io/my-portfolio/)
