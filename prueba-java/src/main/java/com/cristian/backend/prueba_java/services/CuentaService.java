@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cristian.backend.prueba_java.exceptions.CuentaNoEncontradaException;
+import com.cristian.backend.prueba_java.models.ClienteModel;
 import com.cristian.backend.prueba_java.models.CuentaModel;
 import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaRequestDTO;
 import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaResponseDTO;
 import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaUpdateDTO;
+import com.cristian.backend.prueba_java.repositories.IClienteRepository;
 import com.cristian.backend.prueba_java.repositories.ICuentaRepository;
 import com.cristian.backend.prueba_java.services.Mapper.CuentaMapper;
 
@@ -18,6 +20,9 @@ public class CuentaService {
 
     @Autowired
     private ICuentaRepository cuentaRepository;
+
+    @Autowired
+    private IClienteRepository clienteRepository;
 
     public ArrayList<CuentaResponseDTO> getCuentasDTO() {
         ArrayList<CuentaModel> cuentas = (ArrayList<CuentaModel>) cuentaRepository.findAll();
@@ -28,11 +33,20 @@ public class CuentaService {
         return cuentasDTO;
     }
 
-    public CuentaRequestDTO saveCuentaDTO(CuentaModel cuenta) {
+    public CuentaRequestDTO saveCuentaDTO(CuentaRequestDTO cuentaRequestDTO) {
+        ClienteModel cliente = clienteRepository.findById(cuentaRequestDTO.getClienteId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        CuentaModel cuenta = new CuentaModel();
+        cuenta.setNumeroCuenta(cuentaRequestDTO.getNumeroCuenta());
+        cuenta.setTipoCuenta(cuentaRequestDTO.getTipoCuenta());
+        cuenta.setSaldoInicial(cuentaRequestDTO.getSaldoInicial());
+        cuenta.setEstado(cuentaRequestDTO.getEstado());
+        cuenta.setCliente(cliente);
+
         cuenta = cuentaRepository.save(cuenta);
-        CuentaRequestDTO cuentaDTO = new CuentaRequestDTO();
-        cuentaDTO = CuentaMapper.ConvertRequestDTO(cuenta);
-        return cuentaDTO;
+
+        return CuentaMapper.ConvertRequestDTO(cuenta);
     }
 
     public CuentaResponseDTO getByIdODT(Long id) {

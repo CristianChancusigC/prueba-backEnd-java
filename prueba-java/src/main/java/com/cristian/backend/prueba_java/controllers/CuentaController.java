@@ -40,8 +40,8 @@ public class CuentaController {
     }
 
     @PostMapping
-    public CuentaRequestDTO saveCuenta(@Valid @RequestBody CuentaModel cuenta) {
-        return this.cuentaService.saveCuentaDTO(cuenta);
+    public CuentaRequestDTO saveCuenta(@Valid @RequestBody CuentaRequestDTO cuentaRequestDTO) {
+        return this.cuentaService.saveCuentaDTO(cuentaRequestDTO);
     }
 
     @PutMapping(path = "/{id}")

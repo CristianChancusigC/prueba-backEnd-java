@@ -40,13 +40,6 @@ public class MovimientosController {
     public SMovimientoResponseDTO registrarMovimiento(@RequestBody SMovimientosRequestDTO request) {
         return movimientosService.registroMovimientos(request);
     }
-    // @PostMapping
-    // public ResponseEntity<SMovimientoResponseDTO>
-    // registrarMovimiento(@RequestBody SMovimientosRequestDTO request) {
-    // SMovimientoResponseDTO response =
-    // movimientosService.registroMovimientos(request);
-    // return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    // }
 
     @PutMapping(path = "/{id}")
     public MovimientoUpdateDTO updateMovimientoById(@RequestBody MovimientosModel request,

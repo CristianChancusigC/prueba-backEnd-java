@@ -27,6 +27,7 @@ public class MovimientosMapper {
         movimientos.setSaldoInicial(movimientosModel.getValor());
         movimientos.setEstado(movimientosModel.getCuenta().getEstado());
         movimientos.setMovimiento(movimientosModel.getValor());
+        movimientos.setSaldoDisponible(movimientosModel.getCuenta().getSaldoInicial());
         return movimientos;
     }
 
