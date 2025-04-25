@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cristian.backend.prueba_java.exceptions.CuentaNoEncontradaException;
 import com.cristian.backend.prueba_java.models.CuentaModel;
 import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaRequestDTO;
 import com.cristian.backend.prueba_java.models.dto.cuenta.CuentaResponseDTO;
@@ -35,7 +36,8 @@ public class CuentaService {
     }
 
     public CuentaResponseDTO getByIdODT(Long id) {
-        CuentaModel cuenta = cuentaRepository.findById(id).orElse(null);
+        CuentaModel cuenta = cuentaRepository.findById(id)
+                .orElseThrow(() -> new CuentaNoEncontradaException("Cuenta no encontrada con id: " + id));
         if (cuenta != null) {
             return CuentaMapper.CovertCuentaResponseDTO(cuenta);
         } else {
@@ -44,7 +46,8 @@ public class CuentaService {
     }
 
     public CuentaUpdateDTO updateByIdDTO(CuentaModel request, Long id) {
-        CuentaModel cuenta = cuentaRepository.findById(id).orElse(null);
+        CuentaModel cuenta = cuentaRepository.findById(id)
+                .orElseThrow(() -> new CuentaNoEncontradaException("Cuenta no encontrada con id: " + id));
         if (cuenta != null) {
             cuenta.setSaldoInicial(request.getSaldoInicial());
             cuenta.setEstado(request.getEstado());

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cristian.backend.prueba_java.exceptions.CuentaNoEncontradaException;
+import com.cristian.backend.prueba_java.exceptions.MovimientoNoEncontradoException;
+import com.cristian.backend.prueba_java.exceptions.SaldoInsuficienteException;
+import com.cristian.backend.prueba_java.exceptions.ValorIngresadoException;
 import com.cristian.backend.prueba_java.models.CuentaModel;
 import com.cristian.backend.prueba_java.models.MovimientosModel;
 import com.cristian.backend.prueba_java.models.dto.movimientos.MovimientoUpdateDTO;
@@ -46,7 +50,8 @@ public class MovimientosService {
     }
 
     public MovimientosResponseDTO getByIdDTO(Long id) {
-        MovimientosModel movimiento = movimientoRepository.findById(id).orElse(null);
+        MovimientosModel movimiento = movimientoRepository.findById(id).orElseThrow(
+                () -> new MovimientoNoEncontradoException("Movimiento no encontrado con id: " + id));
         if (movimiento != null) {
             return MovimientosMapper.CovertMovimientosResponseDTO(movimiento);
         } else {
@@ -67,7 +72,8 @@ public class MovimientosService {
     // }
 
     public MovimientoUpdateDTO updateByIdDTO(MovimientosModel request, Long id) {
-        MovimientosModel movimiento = movimientoRepository.findById(id).orElse(null);
+        MovimientosModel movimiento = movimientoRepository.findById(id).orElseThrow(
+                () -> new MovimientoNoEncontradoException("Movimiento no encontrado con id: " + id));
         if (movimiento != null) {
             movimiento.setFecha(request.getFecha());
             movimiento.setValor(request.getValor());
@@ -88,19 +94,21 @@ public class MovimientosService {
 
     public SMovimientoResponseDTO registroMovimientos(SMovimientosRequestDTO movimientoDTO) {
         CuentaModel cuenta = cuentaRepository.findById(movimientoDTO.getCuentaId())
-                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+                .orElseThrow(() -> new CuentaNoEncontradaException("Cuenta no encontrada"));
+
+        if (movimientoDTO.getValor() == null) {
+            throw new ValorIngresadoException("El valor del movimiento no puede ser nulo");
+        }
 
         Double nuevoSaldo = cuenta.getSaldoInicial();
 
         if (movimientoDTO.getValor() < 0) {
             if (nuevoSaldo + movimientoDTO.getValor() < 0) {
-                throw new RuntimeException("Saldo insuficiente para realizar el movimiento");
+                throw new SaldoInsuficienteException("Saldo insuficiente para realizar el movimiento");
             }
-        } 
-        // else {
-        //     cuenta.setSaldoInicial(nuevoSaldo + movimientoDTO.getValor());
-        // }
-        cuenta.setSaldoInicial(nuevoSaldo + movimientoDTO.getValor());
+        }
+        nuevoSaldo = nuevoSaldo + movimientoDTO.getValor();
+        cuenta.setSaldoInicial(nuevoSaldo);
         cuentaRepository.save(cuenta);
 
         MovimientosModel movimiento = new MovimientosModel();
@@ -112,6 +120,7 @@ public class MovimientosService {
         movimientoRepository.save(movimiento);
 
         SMovimientoResponseDTO response = new SMovimientoResponseDTO();
+        response.setMovimientoId(movimiento.getIdMovimiento());
         response.setFecha(movimiento.getFecha());
         response.setTipoMovimiento(movimiento.getTipoMovimiento());
         response.setValor(movimiento.getValor());

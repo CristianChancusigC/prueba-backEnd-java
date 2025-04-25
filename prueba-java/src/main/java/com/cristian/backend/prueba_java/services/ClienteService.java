@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cristian.backend.prueba_java.exceptions.ClienteNoEncontradoException;
 import com.cristian.backend.prueba_java.models.ClienteModel;
 import com.cristian.backend.prueba_java.models.dto.cliente.ClienteRequestDTO;
 import com.cristian.backend.prueba_java.models.dto.cliente.ClienteResponseDTO;
@@ -35,7 +36,8 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO getByIdDTO(Long id) {
-        ClienteModel cliente = clienteRepository.findById(id).orElse(null);
+        ClienteModel cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado con id: " + id));
         if (cliente != null) {
             return ClienteMapper.CovertClienteResponseDTO(cliente);
         } else {
@@ -44,7 +46,8 @@ public class ClienteService {
     }
 
     public ClienteUpdateDTO updateByIdDTO(ClienteModel request, Long id) {
-        ClienteModel cliente = clienteRepository.findById(id).orElse(null);
+        ClienteModel cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado con id: " + id));
         if (cliente != null) {
             cliente.setNombre(request.getNombre());
             cliente.setGenero(request.getGenero());

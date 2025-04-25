@@ -34,7 +34,7 @@ public class MovimientosModel {
     @Column(nullable = false)
     private Double saldo;
 
-    public Long getId_movimiento() {
+    public Long getIdMovimiento() {
         return id_movimiento;
     }
 
